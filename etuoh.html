@@ -14,8 +14,7 @@
 
         body {
             font-family: 'Microsoft YaHei', '微軟正黑體', Arial, sans-serif;
-            /* 官網背景是淺色的 */
-            background-color: #f7f7f7; 
+            background-color: #f7f7f7; /* 目標頁面的淺灰色背景 */
             color: #333;
             line-height: 1.6;
         }
@@ -63,17 +62,37 @@
             color: #32CD32;
         }
 
-        /* ============ 主視覺 HERO BANNER ============ */
+        /* ============ 主視覺 HERO BANNER - 修改為全屏 ============ */
         .hero-banner {
             width: 100%;
-            height: 300px;
-            /* 替換成你的 50 周年背景圖 */
+            height: 100vh; /* 超大 Banner，占滿整個畫面 */
+            /* 請確保資料夾內有這張圖片，或者替換正確路徑 */
             background: url('./首頁照片.jpg') no-repeat center center;
             background-size: cover;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* ============ 核心三欄佈局 ============ */
+        /* HeroBanner 中居中的 50週年文字 */
+        .hero-content {
+            text-align: center;
+            color: #1e5ba8; /* 精確的 50週年文字顏色 */
+            z-index: 2;
+        }
+        .hero-content h1 {
+            font-size: 15vw; /* 超大文字 */
+            margin: 0;
+            line-height: 1;
+        }
+        .hero-content p {
+            font-size: 2.5vw;
+            margin: 0;
+            letter-spacing: 0.5em;
+        }
+
+        /* ============ 核心三欄佈局 - 修改為獨立滾動 ============ */
         .container {
             max-width: 1200px;
             margin: 30px auto;
@@ -81,6 +100,8 @@
             display: flex;
             align-items: flex-start;
             gap: 20px;
+            height: 70vh; /* 設置固定高度，用於欄位滾動 */
+            overflow-y: hidden; /* 隱藏容器自身的滾動，讓欄單獨滾動 */
         }
 
         .section-title {
@@ -94,7 +115,19 @@
             margin-bottom: 15px;
         }
 
-        /* --- 左欄 (話題區：橫幅堆疊) 約佔 35% --- */
+        /* 欄位通用獨立滾動樣式 */
+        .col-left, .col-mid, .col-right {
+            height: 100%; /* 填滿容器高度 */
+            overflow-y: auto; /* 允許垂直滾動 */
+            padding-right: 10px; /* 為滾動條留出空間 */
+        }
+        /* 隱藏原生滾動條，讓滾動更平滑 (可選) */
+        .col-left::-webkit-scrollbar, .col-mid::-webkit-scrollbar, .col-right::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* --- 左欄 (話題區) 約佔 35% --- */
         .col-left {
             flex: 0 0 35%;
             display: flex;
@@ -111,7 +144,7 @@
             display: block;
         }
 
-        /* --- 中欄 (聯絡與選單區：灰色底) 約佔 25% --- */
+        /* --- 中欄 (聯絡與選單區) 約佔 25% - 細化樣式 --- */
         .col-mid {
             flex: 0 0 25%;
             background-color: #eaeaea;
@@ -128,7 +161,8 @@
             color: #333;
         }
 
-        .social-icons {
+        /* 中欄社群圖示細化 */
+        .social-links {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
@@ -143,9 +177,11 @@
             justify-content: center;
             color: white;
             font-weight: bold;
+            font-size: 1.2em;
         }
         .bg-fb { background-color: #3b5998; }
         .bg-line { background-color: #00c300; }
+        .bg-mail { background-color: #555; } /* 灰色郵件圖示 */
 
         .mid-divider {
             width: 80%;
@@ -160,6 +196,7 @@
             color: #555;
             line-height: 1.8;
             margin-bottom: 20px;
+            padding: 0 10px;
         }
 
         .mid-menu {
@@ -191,7 +228,7 @@
             margin-right: 10px;
         }
 
-        /* --- 右欄 (最新優惠：長型海報堆疊) 約佔 40% --- */
+        /* --- 右欄 (最新優惠) 約佔 40% --- */
         .col-right {
             flex: 0 0 40%;
             display: flex;
@@ -210,42 +247,96 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-
-        /* ============ 頁尾 FOOTER ============ */
+        /* ============ 新的頁尾 FOOTER (替換舊的) ============ */
         footer {
             margin-top: 50px;
-            background-color: #222;
+            background-color: #f0f0f0; /* 淺灰色背景第一層 */
+            color: #333;
+            font-size: 12px;
         }
 
-        .footer-brands {
-            background-color: #f0f0f0;
+        /* 友好連結第一層 */
+        .footer-section-1 {
+            padding: 20px 0;
+            text-align: center;
+        }
+        .footer-section-1 h3 {
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+        .brand-scroll {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            position: relative;
+            padding: 0 50px;
+        }
+        .brand-scroll img {
+            height: 25px; /* 品牌Logo高度 */
+            opacity: 0.8;
+        }
+        .brand-scroll .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            color: #888;
+            cursor: pointer;
+        }
+        .brand-scroll .arrow-left { left: 0; }
+        .brand-scroll .arrow-right { right: 0; }
+
+        /* 頁尾導覽第二層 */
+        .footer-section-2 {
+            background-color: #e0e0e0; /* 深灰色背景 */
             padding: 15px 0;
             text-align: center;
-            font-size: 12px;
-            color: #666;
         }
-
-        .footer-links {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 15px;
+        .footer-section-2 ul {
+            list-style: none;
             display: flex;
             justify-content: center;
             gap: 40px;
+            margin: 0;
+            padding: 0;
+        }
+        .footer-section-2 a {
+            color: #555;
         }
 
-        .footer-links a {
+        /* 聯繫和版權第三層 */
+        .footer-section-3 {
+            background-color: #222; /* 深黑色背景 */
             color: #aaa;
-            font-size: 12px;
-        }
-        
-        .footer-bottom {
-            background-color: #111;
-            color: #666;
+            padding: 30px 0;
             text-align: center;
-            padding: 15px 0;
+        }
+        .social-links-footer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        /* 復用社群圓形樣式，但特定顏色 */
+        .social-links-footer .social-circle.bg-mail { background-color: #555; } /* 灰色背景郵件圖示 */
+
+        .contact-info-footer {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        .copyright-footer {
+            font-size: 11px;
+            color: #777;
+        }
+        .privacy-link {
+            margin-top: 10px;
             font-size: 11px;
         }
+        .privacy-link a {
+            color: #777;
+        }
+
     </style>
 </head>
 <body>
@@ -266,13 +357,17 @@
         </div>
     </header>
 
-    <section class="hero-banner"></section>
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>50</h1>
+            <p>週年慶</p>
+        </div>
+    </section>
 
     <div class="container">
         
         <div class="col-left">
             <div class="section-title">話題</div>
-            
             <a href="#" class="left-banner"><img src="./01話題下方.jpg" alt="相聚一堂"></a>
             <a href="#" class="left-banner"><img src="./02.jpg" alt="購物平台"></a>
             <a href="#" class="left-banner"><img src="./03.jpg" alt="蝦皮商城"></a>
@@ -284,9 +379,14 @@
 
         <div class="col-mid">
             <div class="mid-title">與我分享</div>
-            <div class="social-icons">
+            <div class="social-links">
                 <a href="#" class="social-circle bg-fb">f</a>
                 <a href="#" class="social-circle bg-line">L</a>
+                <a href="#" class="social-circle bg-mail">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-envelope" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114V5.383zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.731z"/>
+                    </svg>
+                </a>
             </div>
 
             <div class="mid-divider"></div>
@@ -298,8 +398,8 @@
 
             <div class="mid-title">聯絡資訊</div>
             <div class="contact-info">
-                台北市北投區東華街二段322號三樓<br>
-                TEL : 02-2821-1119<br>
+                臺北市北投區東華街二段322號三樓<br>
+                TEL：02-2821-1119<br>
                 營業時間：11:00 - 21:30<br>
                 (例假日照常營業)
             </div>
@@ -328,17 +428,50 @@
     </div>
 
     <footer>
-        <div class="footer-brands">
-            友好連結： Shimano | GAMAKATSU | BASSDAY | Megabass
+        <div class="footer-section-1">
+            <h3>友好連結</h3>
+            <div class="brand-scroll">
+                <span class="arrow arrow-left">&lt;</span>
+                <img src="./Shimano.png" alt="Shimano">
+                <img src="./GAMAKATSU.png" alt="GAMAKATSU">
+                <img src="./Megabass.png" alt="Megabass">
+                <img src="./TackleHouse.png" alt="Tackle House">
+                <img src="./ ओलंपिक.png" alt="Olymipic Co. Ltd.">
+                <span class="arrow arrow-right">&gt;</span>
+            </div>
         </div>
-        <div class="footer-links">
-            <a href="#">關於ETUOH</a>
-            <a href="#">快速導覽</a>
-            <a href="#">合作品牌</a>
-            <a href="#">法律資訊</a>
+
+        <div class="footer-section-2">
+            <ul>
+                <li><a href="#">關於ETUOH</a></li>
+                <li><a href="#">最新消息</a></li>
+                <li><a href="#">門市據點</a></li>
+                <li><a href="#">線上購物</a></li>
+                <li><a href="#">HEARTY RISE</a></li>
+                <li><a href="#">聯絡我們</a></li>
+            </ul>
         </div>
-        <div class="footer-bottom">
-            Copyright© 2019 ETUOH All Rights Reserved.
+
+        <div class="footer-section-3">
+            <div class="social-links-footer">
+                <a href="#" class="social-circle bg-fb">f</a>
+                <a href="#" class="social-circle bg-line">L</a>
+                <a href="#" class="social-circle bg-mail">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-envelope" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114V5.383zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.731z"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="contact-info-footer">
+                TEL：02-2821-1119<br>
+                臺北市北投區東華街二段322號三樓
+            </div>
+            <div class="copyright-footer">
+                Copyright© 2019 ETUOH 漁拓企業股份有限公司 All Rights Reserved | Designed by LOHAS IT
+            </div>
+            <div class="privacy-link">
+                <a href="#">隱私權條款</a>
+            </div>
         </div>
     </footer>
 
