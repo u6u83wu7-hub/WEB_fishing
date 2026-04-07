@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員登入 | ETUOH SHOP 漁拓線上購物</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', '微軟正黑體', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4; /* 電商常見的淺灰底色 */
+            color: #333;
+        }
+
+        /* 簡化的電商導覽列 */
+        header {
+            background-color: #fff;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #32CD32; /* 漁拓的品牌綠色 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #222;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: #32CD32;
+        }
+
+        .header-links a {
+            text-decoration: none;
+            color: #666;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        .header-links a:hover {
+            color: #32CD32;
+        }
+
+        /* 登入區塊排版 */
+        .login-container {
+            max-width: 450px;
+            margin: 60px auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            font-size: 22px;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* 表單設計 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #32CD32;
+            box-shadow: 0 0 5px rgba(50, 205, 50, 0.2);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .form-options label {
+            color: #666;
+            cursor: pointer;
+        }
+
+        .form-options a {
+            color: #32CD32;
+            text-decoration: none;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background-color: #32CD32;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-login:hover {
+            background-color: #28a428;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 14px;
+            background-color: #fff;
+            color: #666;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-register:hover {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* 簡單頁尾 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 12px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            ETUOH <span>SHOP</span>
+        </div>
+        <div class="header-links">
+            <a href="#">回首頁</a>
+            <a href="#">購物車 (0)</a>
+            <a href="#">常見問題</a>
+        </div>
+    </header>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1>會員登入</h1>
+            <p>歡迎回來！請登入以繼續您的購物旅程或查看訂單。</p>
+        </div>
+
+        <form action="#" method="POST" onsubmit="alert('作業測試：帳號密碼已被攔截！'); return false;">
+            <div class="form-group">
+                <label for="account">手機號碼 / 電子郵件</label>
+                <input type="text" id="account" name="account" placeholder="請輸入您的帳號" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">密碼</label>
+                <input type="password" id="password" name="password" placeholder="請輸入您的密碼" required>
+            </div>
+
+            <div class="form-options">
+                <label>
+                    <input type="checkbox" name="remember"> 記住我
+                </label>
+                <a href="#">忘記密碼？</a>
+            </div>
+
+            <button type="submit" class="btn-login">安全登入</button>
+            <button type="button" class="btn-register">註冊新會員</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>Copyright © 2026 ETUOH 漁拓企業股份有限公司 All Rights Reserved.</p>
+        <p>※ 本網頁僅供學術作業測試使用</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETUOH SHOP 漁拓線上購物</title>
+    <style>
+        /* ============ 全局設定 ============ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', '微軟正黑體', Arial, sans-serif;
+        }
+        body { background-color: #f7f7f7; color: #333; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+        /* ============ 頂部黑色細條 ============ */
+        .top-bar {
+            background-color: #1e2733;
+            color: #ccc;
+            font-size: 12px;
+            padding: 8px 0;
+        }
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+        .top-bar a:hover { color: #fff; }
+        .login-trigger { color: #32CD32 !important; font-weight: bold; cursor: pointer; }
+
+        /* ============ 主 Header (Logo 與 搜尋) ============ */
+        .header-main {
+            background-color: #fff;
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #1e365d;
+            letter-spacing: 1px;
+        }
+        .search-box {
+            display: flex;
+            width: 50%;
+            border: 2px solid #1e365d;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            outline: none;
+        }
+        .search-box button {
+            background-color: #1e365d;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .header-icons { display: flex; gap: 15px; font-size: 14px; }
+
+        /* ============ 主導覽列 (深藍色) ============ */
+        .main-nav {
+            background-color: #1e365d;
+        }
+        .main-nav ul {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .main-nav li a {
+            display: block;
+            color: #fff;
+            padding: 12px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .main-nav li a:hover { background-color: #2a4b82; }
+
+        /* ============ 主視覺 Banner ============ */
+        .hero-banner {
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        .hero-banner img {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* ============ 釣法分類區 (你傳的圖片) ============ */
+        .category-section {
+            max-width: 1200px;
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* 上中下三張圖的間距 */
+        }
+        .category-section img {
+            width: 100%;
+            display: block;
+        }
+
+        /* ============ 猜你喜歡商品區 (你傳的圖片) ============ */
+        .section-title {
+            max-width: 1200px;
+            margin: 40px auto 20px;
+            font-size: 20px;
+            color: #1e365d;
+            font-weight: bold;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .products-grid {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .product-card {
+            background: #fff;
+            padding: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            width: 100%;
+            display: block;
+        }
+
+        /* ============ 頁尾 Footer ============ */
+        .footer-image {
+            width: 100%;
+            display: block;
+            margin-top: 50px;
+        }
+
+        /* ============ 釣魚登入彈出視窗 (Modal) ============ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-box {
+            background-color: #fff;
+            width: 400px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close-btn {
+            position: absolute; top: 15px; right: 20px;
+            font-size: 24px; color: #888; cursor: pointer;
+        }
+        .login-box h2 { text-align: center; color: #222; margin-bottom: 10px; }
+        .login-box p { text-align: center; color: #666; font-size: 13px; margin-bottom: 25px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 13px; color: #333; margin-bottom: 5px; font-weight: bold; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .submit-btn {
+            width: 100%; padding: 12px; background-color: #1e365d; color: white;
+            border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;
+        }
+        .submit-btn:hover { background-color: #2a4b82; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="container">
+            <a class="login-trigger" onclick="openPhishingModal()">登入 / 註冊</a>
+            <a href="#">追蹤清單</a>
+            <a href="#">購物車</a>
+            <a href="#">繁體中文</a>
+        </div>
+    </div>
+
+    <header class="header-main container">
+        <div class="logo">ETUOH SHOP</div>
+        <div class="search-box">
+            <input type="text" placeholder="請輸入商品名稱、型號...">
+            <button>搜尋</button>
+        </div>
+        <div class="header-icons">
+            <a href="#">聯絡我們</a>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="#">全站商品</a></li>
+            <li><a href="#">活動專區</a></li>
+            <li><a href="#">最新上架</a></li>
+            <li><a href="#">品牌專區</a></li>
+            <li><a href="#">釣法分類</a></li>
+            <li><a href="#">門市據點</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero-banner">
+        <img src="https://via.placeholder.com/1200x400/1e365d/ffffff?text=ETUOH+SHOP+SALE" alt="最大的Banner" style="height: 350px; object-fit: cover;">
+    </div>
+
+    <div class="category-section">
+        <img src="釣法上.png" alt="釣法分類-上">
+        <img src="釣法中.png" alt="釣法分類-中">
+        <img src="釣法下.png" alt="釣法分類-下">
+    </div>
+
+    <div class="section-title">猜你喜歡 / 推薦商品</div>
+    <div class="products-grid">
+        <div class="product-card" onclick="openPhishingModal()">
+            <img src="猜你喜歡1.png" alt="商品1">
+        </div>
+        <div class="product-card" onclick="openPhishingModal()">
+            <img src="猜你喜歡2.png" alt="商品2">
+        </div>
+        <div class="product-card" onclick="openPhishingModal()">
+            <img src="猜你喜歡3.png" alt="商品3">
+        </div>
+        <div class="product-card" onclick="openPhishingModal()">
+            <img src="猜你喜歡4.png" alt="商品4">
+        </div>
+    </div>
+
+    <img src="頁尾.png" alt="頁尾" class="footer-image">
+
+    <div id="phishingModal" class="modal-overlay">
+        <div class="login-box">
+            <span class="close-btn" onclick="closePhishingModal()">&times;</span>
+            <h2>會員登入</h2>
+            <p>請先登入會員，以享有專屬優惠價格與結帳功能。</p>
+            
+            <form action="#" method="POST" onsubmit="alert('【資安作業測試】\n您輸入的帳號密碼已被攔截！\n請勿在不明視窗輸入真實密碼。'); return false;">
+                <div class="input-group">
+                    <label>會員帳號 (手機/Email)</label>
+                    <input type="text" placeholder="請輸入帳號" required>
+                </div>
+                <div class="input-group">
+                    <label>密碼</label>
+                    <input type="password" placeholder="請輸入密碼" required>
+                </div>
+                <button type="submit" class="submit-btn">登入</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openPhishingModal() {
+            document.getElementById('phishingModal').style.display = 'flex';
+        }
+        function closePhishingModal() {
+            document.getElementById('phishingModal').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
