@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETUOH 漁拓釣具 - 50週年慶</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', '微軟正黑體', 'Arial', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: #3a3a3a;
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .search-icon {
+            color: #ccc;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(to bottom, rgba(220,220,220,0.8), rgba(150,180,200,0.6)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:rgba(255,200,100,0.3)"/><stop offset="100%" style="stop-color:rgba(100,180,220,0.4)"/></linearGradient></defs><rect width="1200" height="400" fill="url(%23sky)"/></svg>');
+            background-attachment: fixed;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 300px;
+            background: radial-gradient(ellipse at 30% 30%, rgba(255,200,100,0.2), transparent 70%);
+            top: 0;
+            right: -100px;
+            opacity: 0.7;
+            animation: drift 8s ease-in-out infinite;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(20px) translateY(-10px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 140px;
+            font-weight: bold;
+            color: #1e5ba8;
+            margin-bottom: -10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+            line-height: 1;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .hero-content .tagline {
+            font-size: 14px;
+            color: #888;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 180px 1fr 320px;
+            gap: 20px;
+            min-height: 600px;
+        }
+
+        /* Left Column - Topic/Posts */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #222;
+            color: white;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        .card-meta {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .card-badges {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #333;
+            color: white;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .banner-ad {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            padding: 20px;
+            border-radius: 5px;
+            color: white;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .banner-ad h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .banner-ad .price {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Middle Column - News */
+        .middle-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .news-item:hover {
+            background: #f9f9f9;
+        }
+
+        .news-thumbnail {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #fd6e6e 0%, #ffa366 100%);
+            border-radius: 5px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .news-content {
+            flex: 1;
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .news-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .news-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .contact-box {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .contact-box h3 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .contact-item {
+            font-size: 13px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-icon {
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .social-icon:hover {
+            background: #555;
+        }
+
+        .social-icon.fb { background: #3b7dd9; }
+        .social-icon.line { background: #00b900; }
+
+        /* Right Column - Promotions */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .promo-card {
+            background: white;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+
+        .promo-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .promo-content {
+            padding: 15px;
+        }
+
+        .promo-tag {
+            display: inline-block;
+            background-color: #ff6b6b;
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        .promo-title {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .promo-desc {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .view-more {
+            color: #ff6b6b;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-brand {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        .brand-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .brand-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .brand-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            padding: 15px 20px;
+        }
+
+        .brand-logos {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+            padding: 20px;
+            background: #222;
+        }
+
+        .brand-logos img {
+            height: 30px;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <div class="header-container">
+            <div class="logo">ETUOH</div>
+            <nav>
+                <ul>
+                    <li><a href="#about">關於我們</a></li>
+                    <li><a href="#news">最新消息</a></li>
+                    <li><a href="#products">商品介紹</a></li>
+                    <li><a href="#store">門市資訊</a></li>
+                    <li><a href="#contact">聯絡我們</a></li>
+                    <li><a href="#brand">品牌介紹</a></li>
+                </ul>
+            </nav>
+            <div class="search-icon">🔍</div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>50</h1>
+            <p>週年慶</p>
+            <div class="tagline">慶祝ETUOH漁拓50週年</div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Left Column: Topics -->
+        <div class="left-column">
+            <div class="section-title">話題</div>
+
+            <div class="card">
+                <div class="card-image">相聚一堂 群聚圖片</div>
+                <div class="card-content">
+                    <div class="card-title">相聚一堂</div>
+                    <div class="card-meta">ETUOH 邀約時光</div>
+                    <div class="card-badges">
+                        <span class="badge">新聞</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">新品情報</div>
+                <div class="card-content">
+                    <div class="card-title">新品情報</div>
+                    <div class="card-meta">最新商品上市</div>
+                </div>
+            </div>
+
+            <div class="banner-ad">
+                <h3>漁拓折扣中心</h3>
+                <div class="price">最高折150元</div>
+                <p style="font-size: 12px;">立即購物享優惠</p>
+            </div>
+
+            <div class="card">
+                <div class="card-image">釣場資料</div>
+                <div class="card-content">
+                    <div class="card-title">釣場資料</div>
+                    <div class="card-meta">全台灣釣場介紹</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">VIP CARD 8折</div>
+                <div class="card-content">
+                    <div class="card-title">地域合作聯誼 VIP CARD</div>
+                    <div class="card-meta">享受會員專屬折扣</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Column: News -->
+        <div class="middle-column">
+            <div class="section-title">最新消息</div>
+
+            <div class="news-item">
+                <div class="news-thumbnail">新聞圖片</div>
+                <div class="news-content">
+                    <div class="news-date">2026/04/07</div>
+                    <div class="news-title">【省錢有感！漁拓全館滿額現折】</div>
+                    <div class="news-desc">漁拓全館滿額現折，補貨趁現在，多買多省！</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-thumbnail">新聞圖片</div>
+                <div class="news-content">
+                    <div class="news-date">2026/04/05</div>
+                    <div class="news-title">🌿 【清明時節：思念，是另一種陪伴】</div>
+                    <div class="news-desc">清明時節的特別活動與優惠</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-thumbnail">新聞圖片</div>
+                <div class="news-content">
+                    <div class="news-date">2026/04/04</div>
+                    <div class="news-title">🌈 【今天，我們都是長不大的孩子！】</div>
+                    <div class="news-desc">兒童節特別企劃，歡樂優惠等著你</div>
+                </div>
+            </div>
+
+            <div class="contact-box">
+                <h3>☎ 聯絡資訊</h3>
+                <div class="contact-item">
+                    <span>📍 台北市北投區東華街二段322號三樓</span>
+                </div>
+                <div class="contact-item">
+                    <span>☎ 02-2821-1119</span>
+                </div>
+                <div class="contact-item">
+                    <span>📧 聯絡我們</span>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>門市營業時間</strong>
+                    <div style="font-size: 12px; margin-top: 5px;">11:00 - 21:30 (例假日照常營業)</div>
+                </div>
+            </div>
+
+            <div class="contact-box">
+                <h3>社群媒體</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon fb">f</a>
+                    <a href="#" class="social-icon line">L</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Promotions -->
+        <div class="right-column">
+            <div class="section-title">最新優惠</div>
+
+            <div class="promo-card">
+                <div class="promo-image">優惠圖片 1</div>
+                <div class="promo-content">
+                    <span class="promo-tag">優惠訊息</span>
+                    <div class="promo-title">最高折150元</div>
+                    <div class="promo-desc">漁拓全館商品優惠</div>
+                    <span class="view-more">查看詳情 ></span>
+                </div>
+            </div>
+
+            <div class="promo-card">
+                <div class="promo-image">優惠圖片 2</div>
+                <div class="promo-content">
+                    <span class="promo-tag">優惠訊息</span>
+                    <div class="promo-title">呻吟魚 新品上市</div>
+                    <div class="promo-desc">精選新商品限時優惠</div>
+                    <span class="view-more">查看詳情 ></span>
+                </div>
+            </div>
+
+            <div class="promo-card">
+                <div class="promo-image">優惠圖片 3</div>
+                <div class="promo-content">
+                    <span class="promo-tag">優惠訊息</span>
+                    <div class="promo-title">釣具套裝組合</div>
+                    <div class="promo-desc">入門新手最佳選擇</div>
+                    <span class="view-more">查看詳情 ></span>
+                </div>
+            </div>
+
+            <div class="promo-card">
+                <div class="promo-image">優惠圖片 4</div>
+                <div class="promo-content">
+                    <span class="promo-tag">優惠訊息</span>
+                    <div class="promo-title">釣場快閃活動</div>
+                    <div class="promo-desc">限定時間限定地點</div>
+                    <span class="view-more">查看詳情 ></span>
+                </div>
+            </div>
+
+            <div class="promo-card">
+                <div class="promo-image">優惠圖片 5</div>
+                <div class="promo-content">
+                    <span class="promo-tag">優惠訊息</span>
+                    <div class="promo-title">IFC 快閃釣魚生活日</div>
+                    <div class="promo-desc">限定登場，千萬別錯過</div>
+                    <span class="view-more">查看詳情 ></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>關於ETUOH</h3>
+                <ul>
+                    <li><a href="#">公司簡介</a></li>
+                    <li><a href="#">品牌故事</a></li>
+                    <li><a href="#">發展歷程</a></li>
+                    <li><a href="#">企業文化</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>快速連結</h3>
+                <ul>
+                    <li><a href="#">線上購物</a></li>
+                    <li><a href="#">門市據點</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                    <li><a href="#">招募訊息</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>合作品牌</h3>
+                <ul>
+                    <li><a href="#">Shimano</a></li>
+                    <li><a href="#">GAMAKATSU</a></li>
+                    <li><a href="#">Megabass</a></li>
+                    <li><a href="#">BASSDAY</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>資訊</h3>
+                <ul>
+                    <li><a href="#">隱私權條款</a></li>
+                    <li><a href="#">使用條款</a></li>
+                    <li><a href="#">常見問題</a></li>
+                    <li><a href="#">客服中心</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-brand">
+            <div class="brand-links">
+                <a href="#">Facebook</a>
+                <a href="#">LINE</a>
+                <a href="#">YouTube</a>
+            </div>
+            <div class="footer-bottom">
+                <p>ETUOH 漁拓企業股份有限公司</p>
+                <p>TEL：02-2821-1119 | 台北市北投區東華街二段322號三樓</p>
+                <p>Copyright© 2019 ETUOH All Rights Reserved | Designed by LOHAS IT</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
