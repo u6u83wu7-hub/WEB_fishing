@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ETUOH 漁拓釣具 - 50週年慶</title>
     <style>
+        /* ============ 全局設定 ============ */
         * {
             margin: 0;
             padding: 0;
@@ -13,18 +14,21 @@
 
         body {
             font-family: 'Microsoft YaHei', '微軟正黑體', Arial, sans-serif;
-            color: #ccc;
+            /* 官網背景是淺色的 */
+            background-color: #f7f7f7; 
+            color: #333;
             line-height: 1.6;
-            background-color: #000000;
         }
 
-        /* ============ HEADER ============ */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ============ 頁首 HEADER ============ */
         header {
-            background-color: #3a3a3a;
-            padding: 8px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background-color: #222;
+            padding: 10px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -32,865 +36,311 @@
 
         .header-left {
             display: flex;
-            gap: 30px;
             align-items: center;
+            gap: 40px;
         }
 
         .logo {
-            font-size: 16px;
-            font-weight: bold;
             color: white;
-            letter-spacing: 3px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 20px;
+            gap: 25px;
         }
 
         nav a {
-            color: #bbb;
-            text-decoration: none;
-            font-size: 12px;
+            color: #ccc;
+            font-size: 13px;
             transition: color 0.3s;
         }
 
         nav a:hover {
-            color: white;
+            color: #32CD32;
         }
 
-        .search-icon {
-            color: #bbb;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        /* ============ HERO BANNER (主視覺) ============ */
+        /* ============ 主視覺 HERO BANNER ============ */
         .hero-banner {
             width: 100%;
-            height: 350px;
-            background: linear-gradient(135deg, rgba(200,200,200,0.5) 0%, rgba(150,180,200,0.4) 100%), url('./首頁照片.jpg');
+            height: 300px;
+            /* 替換成你的 50 周年背景圖 */
+            background: url('./首頁照片.jpg') no-repeat center center;
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at 30% 20%, rgba(255,200,100,0.2), transparent 60%);
-            opacity: 0.6;
-        }
-
-        .hero-content {
-            text-align: center;
-            z-index: 2;
             position: relative;
         }
 
-        .hero-content h1 {
-            font-size: 120px;
-            font-weight: bold;
-            color: #1e5ba8;
-            margin-bottom: -15px;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-            line-height: 1;
-            letter-spacing: -5px;
-        }
-
-        .hero-content p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 6px;
-            font-weight: 400;
-        }
-
-        .hero-content .tagline {
-            font-size: 12px;
-            color: #999;
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
-
-        /* ============ MAIN CONTENT AREA ============ */
-        .content-wrapper {
-            max-width: 1400px;
-            margin: 20px auto;
+        /* ============ 核心三欄佈局 ============ */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
             padding: 0 15px;
             display: flex;
-            gap: 20px;
-            min-height: auto;
-        }
-
-        /* ============ LEFT COLUMN (Topic + News + Contact) ============ */
-        .left-column {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            flex: 2;
-        }
-
-        .middle-column {
-            display: flex;
-            flex-direction: column;
+            align-items: flex-start;
             gap: 20px;
         }
 
         .section-title {
-            font-size: 12px;
-            font-weight: bold;
             background-color: #111;
-            color: white;
-            padding: 8px 10px;
-            text-align: center;
-            border-radius: 0;
-            border-bottom: 1px solid #333;
-            margin-bottom: 10px;
-        }
-
-        /* 01 話題 - 大卡片 */
-        .topic-main-card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 0;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .topic-main-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-
-        .topic-main-image {
-            width: 100%;
-            height: 120px;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            text-align: center;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-
-        .topic-main-content {
-            padding: 8px;
-            background: #1a1a1a;
-        }
-
-        .topic-main-title {
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 2px;
             color: #fff;
-            line-height: 1.2;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
         }
 
-        .topic-main-meta {
-            font-size: 10px;
-            color: #888;
-        }
-
-        /* 02-07 話題 - 小卡片網格 */
-        .topics-grid {
-            display: grid;
-            grid-template-columns: 1fr;
+        /* --- 左欄 (話題區：橫幅堆疊) 約佔 35% --- */
+        .col-left {
+            flex: 0 0 35%;
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
 
-        .topic-mini-card {
-            background: #333;
-            border: 1px solid #444;
-            border-radius: 0;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            cursor: pointer;
-        }
-
-        .topic-mini-card:hover {
-            transform: translateX(-2px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .topic-mini-image {
-            width: 50px;
-            height: 50px;
-            min-width: 50px;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 11px;
-            text-align: center;
-            background-color: #f0f0f0;
-        }
-
-        .topic-mini-content {
-            padding: 8px 10px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: #333;
-        }
-
-        .topic-mini-title {
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 2px;
-            color: #fff;
-            line-height: 1.2;
-        }
-
-        .topic-mini-meta {
-            font-size: 10px;
-            color: #aaa;
-        }
-
-        /* ============ MIDDLE COLUMN (News & Contact) ============ */
-        .middle-content-box {
-            background: transparent;
-            padding: 0;
-            border: none;
-            border-radius: 0;
-        }
-
-        .middle-content-box .section-title {
-            display: none;
-        }
-
-        .news-grid {
-            display: none;
-        }
-
-        .news-item {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #444;
-            border-radius: 3px;
-            overflow: hidden;
-            transition: box-shadow 0.3s;
-            background: #2a2a2a;
-        }
-
-        .news-item:hover {
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        .news-image {
+        .left-banner {
             width: 100%;
-            height: 120px;
-            background-size: cover;
-            background-position: center;
+            display: block;
+        }
+        .left-banner img {
+            width: 100%;
+            display: block;
+        }
+
+        /* --- 中欄 (聯絡與選單區：灰色底) 約佔 25% --- */
+        .col-mid {
+            flex: 0 0 25%;
+            background-color: #eaeaea;
+            padding: 20px 0 0 0;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            background-color: #f0f0f0;
         }
 
-        .news-content {
-            padding: 12px;
-            background: #2a2a2a;
-        }
-
-        .news-date {
-            font-size: 11px;
-            color: #888;
-            margin-bottom: 4px;
-        }
-
-        .news-title {
-            font-size: 12px;
+        .mid-title {
+            font-size: 13px;
             font-weight: bold;
-            margin-bottom: 5px;
-            color: #fff;
-            line-height: 1.3;
-        }
-
-        .news-desc {
-            font-size: 11px;
-            color: #aaa;
-            line-height: 1.3;
-        }
-
-        .contact-section {
-            padding: 12px 0;
-            background: transparent;
-            border-radius: 0;
-            margin-top: 8px;
-            border: none;
-            border-top: 1px solid #333;
-        }
-
-        .contact-section h3 {
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 6px;
-            color: #fff;
-        }
-
-        .contact-item {
-            font-size: 10px;
-            margin-bottom: 3px;
-            color: #999;
-            line-height: 1.3;
-            text-align: left;
+            margin-bottom: 10px;
+            color: #333;
         }
 
         .social-icons {
             display: flex;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-
-        .social-icon {
-            width: 32px;
-            height: 32px;
+        
+        .social-circle {
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 13px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: transform 0.3s;
+            font-weight: bold;
+        }
+        .bg-fb { background-color: #3b5998; }
+        .bg-line { background-color: #00c300; }
+
+        .mid-divider {
+            width: 80%;
+            height: 1px;
+            background-color: #ccc;
+            margin: 15px 0;
         }
 
-        .social-icon:hover {
-            transform: scale(1.1);
-        }
-
-        .social-icon.fb { background: #3b7dd9; }
-        .social-icon.line { background: #00b900; }
-
-        /* ============ RIGHT COLUMN (優惠：右1-右6 可滑動) ============ */
-        .right-column {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex: 1;
-        }
-
-        .promo-section {
-            position: relative;
-        }
-
-        .promo-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            max-height: 1500px;
-            overflow-y: auto;
-            scroll-behavior: smooth;
-            padding-right: 0;
-            width: 100%;
-        }
-
-        .promo-list::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .promo-list::-webkit-scrollbar-track {
-            background: #111;
-            border-radius: 10px;
-        }
-
-        .promo-list::-webkit-scrollbar-thumb {
-            background: #444;
-            border-radius: 10px;
-        }
-
-        .promo-list::-webkit-scrollbar-thumb:hover {
-            background: #666;
-        }
-
-        .promo-card {
-            background: #222;
-            border: none;
-            border-radius: 0;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            width: 100%;
-        }
-
-        .promo-card:hover {
-            transform: translateX(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .promo-image {
-            width: 100%;
-            height: 140px;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 11px;
+        .contact-info {
             text-align: center;
-            padding: 0;
-            background-color: #f0f0f0;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 20px;
         }
 
-        .promo-content {
-            padding: 8px;
-            background: #222;
-        }
-
-        .promo-tag {
-            display: inline-block;
-            background-color: #32CD32;
-            color: white;
-            font-size: 8px;
-            padding: 2px 4px;
-            border-radius: 0;
-            margin-bottom: 3px;
-        }
-
-        .promo-title {
-            font-size: 10px;
-            font-weight: bold;
-            margin-bottom: 2px;
-            color: #fff;
-            line-height: 1.2;
-        }
-
-        .promo-desc {
-            font-size: 9px;
-            color: #999;
-            margin-bottom: 4px;
-            line-height: 1.2;
-        }
-
-        .view-more {
-            color: #32CD32;
-            font-size: 9px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* ============ FOOTER ============ */
-        footer {
-            background-color: #0a0a0a;
-            color: #999;
-            padding: 15px 0;
-            margin-top: 30px;
-        }
-
-        .brand-section {
-            background: #0a0a0a;
-            padding: 12px 0;
-            text-align: center;
-            border-top: 1px solid #222;
-            border-bottom: 1px solid #222;
-            margin-bottom: 0;
-        }
-
-        .brand-logos {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0 20px;
-        }
-
-        .brand-logo {
-            height: 20px;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-            font-size: 11px;
-            color: #666;
-        }
-
-        .brand-logo:hover {
-            opacity: 0.9;
-        }
-
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 40px;
-            border-top: 1px solid #222;
-        }
-
-        .footer-section {
-            flex: 1;
-        }
-
-        .footer-section h3 {
-            color: #ccc;
-            margin-bottom: 0;
-            font-size: 11px;
-            font-weight: bold;
-            display: inline;
-        }
-
-        .footer-section ul {
+        .mid-menu {
+            width: 100%;
             list-style: none;
-            display: inline;
+            background-color: #dfdfdf;
         }
 
-        .footer-section ul li {
-            display: inline;
-            font-size: 10px;
-            margin-left: 12px;
+        .mid-menu li {
+            border-bottom: 1px solid #ccc;
         }
 
-        .footer-section a {
-            color: #999;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #ccc;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            font-size: 9px;
-            color: #666;
+        .mid-menu a {
+            display: block;
             padding: 12px 20px;
-            border-top: 1px solid #222;
+            font-size: 13px;
+            color: #333;
+            transition: background 0.3s;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .content-wrapper {
-                flex-direction: column;
-            }
+        .mid-menu a:hover {
+            background-color: #d0d0d0;
+        }
 
-            .left-column {
-                flex: 1;
-            }
+        .mid-menu a::before {
+            content: "▶";
+            font-size: 10px;
+            color: #888;
+            margin-right: 10px;
+        }
 
-            .right-column {
-                flex: 1;
-            }
+        /* --- 右欄 (最新優惠：長型海報堆疊) 約佔 40% --- */
+        .col-right {
+            flex: 0 0 40%;
+            display: flex;
+            flex-direction: column;
+        }
 
-            .hero-banner {
-                height: 250px;
-            }
+        .promo-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-            .hero-content h1 {
-                font-size: 80px;
-            }
+        .promo-stack img {
+            width: 100%;
+            display: block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+
+        /* ============ 頁尾 FOOTER ============ */
+        footer {
+            margin-top: 50px;
+            background-color: #222;
+        }
+
+        .footer-brands {
+            background-color: #f0f0f0;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer-links {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            font-size: 12px;
+        }
+        
+        .footer-bottom {
+            background-color: #111;
+            color: #666;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 11px;
         }
     </style>
 </head>
 <body>
-    <!-- Header Navigation -->
+
     <header>
         <div class="header-left">
             <div class="logo">ETUOH STUDIO</div>
             <nav>
                 <ul>
-                    <li><a href="#about">新品商品</a></li>
-                    <li><a href="#news">活動訊息</a></li>
-                    <li><a href="#products">門市資訊</a></li>
-                    <li><a href="#store">品牌介紹</a></li>
-                    <li><a href="#contact">聯絡我們</a></li>
-                    <li><a href="#brand">技術支援</a></li>
+                    <li><a href="#">新品商品</a></li>
+                    <li><a href="#">活動訊息</a></li>
+                    <li><a href="#">門市資訊</a></li>
+                    <li><a href="#">品牌介紹</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                    <li><a href="#">技術支援</a></li>
                 </ul>
             </nav>
         </div>
-        <div class="search-icon">🔍</div>
     </header>
 
-    <!-- Hero Banner - 主視覺 -->
-    <section class="hero-banner">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>50</h1>
-            <p>週年慶</p>
-            <div class="tagline">感謝ETUOH漁拓陪伴50年</div>
-        </div>
-    </section>
+    <section class="hero-banner"></section>
 
-    <!-- Main Content Area -->
-    <div class="content-wrapper">
-        <!-- LEFT COLUMN: 話題 + 最新消息 + 聯絡資訊 -->
-        <div class="left-column">
-            <!-- 話題 Section -->
+    <div class="container">
+        
+        <div class="col-left">
             <div class="section-title">話題</div>
-
-            <!-- 01 話題 - 大卡片 -->
-            <div class="topic-main-card">
-                <div class="topic-main-image" style="background-image: url('./01話題下方.jpg');"></div>
-                <div class="topic-main-content">
-                    <div class="topic-main-title">相聚一堂</div>
-                    <div class="topic-main-meta">ETUOH邀約時光</div>
-                </div>
-            </div>
-
-            <!-- 02-07 話題 - 豎排小卡片 -->
-            <div class="topics-grid">
-                <div class="topic-mini-card">
-                    <div class="topic-mini-image" style="background-image: url('./02.jpg');"></div>
-                    <div class="topic-mini-content">
-                        <div class="topic-mini-title">新品上市</div>
-                        <div class="topic-mini-meta">NEW PRODUCTS</div>
-                    </div>
-                </div>
-
-                <div class="topic-mini-card">
-                    <div class="topic-mini-image" style="background-image: url('./03.jpg');"></div>
-                    <div class="topic-mini-content">
-                        <div class="topic-mini-title">優惠活動</div>
-                        <div class="topic-mini-meta">ACTIVITIES</div>
-                    </div>
-                </div>
-
-                <div class="topic-mini-card">
-                    <div class="topic-mini-image" style="background-image: url('./04.jpg');"></div>
-                    <div class="topic-mini-content">
-                        <div class="topic-mini-title">釣場資訊</div>
-                        <div class="topic-mini-meta">FISHING SPOT</div>
-                    </div>
-                </div>
-
-                <div class="topic-mini-card">
-                    <div class="topic-mini-image" style="background-image: url('./05.jpg');"></div>
-                    <div class="topic-mini-content">
-                        <div class="topic-mini-title">會員專屬</div>
-                        <div class="topic-mini-meta">VIP CARD</div>
-                    </div>
-                </div>
-
-                <div class="topic-mini-card">
-                    <div class="topic-mini-image" style="background-image: url('./06.jpg');"></div>
-                    <div class="topic-mini-content">
-                        <div class="topic-mini-title">線上購物</div>
-                        <div class="topic-mini-meta">SHOPPING</div>
-                    </div>
-                </div>
-
-                <div class="topic-mini-card">
-                    <div class="topic-mini-image" style="background-image: url('./07.jpg');"></div>
-                    <div class="topic-mini-content">
-                        <div class="topic-mini-title">聯絡我們</div>
-                        <div class="topic-mini-meta">CONTACT</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 最新消息 Section -->
-            <div class="middle-content-box">
-                <div class="section-title">最新消息</div>
-
-                <div class="news-grid">
-                    <div class="news-item">
-                        <div class="news-image" style="background-image: url('./02.jpg');"></div>
-                        <div class="news-content">
-                            <div class="news-date">2026/04/07</div>
-                            <div class="news-title">【省錢有感！】</div>
-                            <div class="news-desc">漁拓全館滿額現折</div>
-                        </div>
-                    </div>
-
-                    <div class="news-item">
-                        <div class="news-image" style="background-image: url('./03.jpg');"></div>
-                        <div class="news-content">
-                            <div class="news-date">2026/04/05</div>
-                            <div class="news-title">🌿 清明時節</div>
-                            <div class="news-desc">思念另一種陪伴</div>
-                        </div>
-                    </div>
-
-                    <div class="news-item">
-                        <div class="news-image" style="background-image: url('./04.jpg');"></div>
-                        <div class="news-content">
-                            <div class="news-date">2026/04/04</div>
-                            <div class="news-title">🌈 兒童節</div>
-                            <div class="news-desc">長不大享優惠</div>
-                        </div>
-                    </div>
-
-                    <div class="news-item">
-                        <div class="news-image" style="background-image: url('./05.jpg');"></div>
-                        <div class="news-content">
-                            <div class="news-date">2026/03/31</div>
-                            <div class="news-title">🎣 IFC快閃</div>
-                            <div class="news-desc">釣魚生活日登場</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 聯絡資訊 & Social Media -->
-                <div class="contact-section">
-                    <h3>☎ 聯絡資訊</h3>
-                    <div class="contact-item">📍 臺北市北投區東華街二段322號三樓</div>
-                    <div class="contact-item">☎ 02-2821-1119</div>
-                    <div class="contact-item">🕐 11:00 - 21:30</div>
-                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #333;">
-                        <h3 style="margin-bottom: 6px;">社群媒體</h3>
-                        <div class="social-icons">
-                            <a href="#" class="social-icon fb">f</a>
-                            <a href="#" class="social-icon line">L</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
+            <a href="#" class="left-banner"><img src="./01話題下方.jpg" alt="相聚一堂"></a>
+            <a href="#" class="left-banner"><img src="./02.jpg" alt="購物平台"></a>
+            <a href="#" class="left-banner"><img src="./03.jpg" alt="蝦皮商城"></a>
+            <a href="#" class="left-banner"><img src="./04.jpg" alt="紅利點數"></a>
+            <a href="#" class="left-banner"><img src="./05.jpg" alt="反詐騙"></a>
+            <a href="#" class="left-banner"><img src="./06.jpg" alt="新品情報"></a>
+            <a href="#" class="left-banner"><img src="./07.jpg" alt="VIP CARD"></a>
         </div>
 
-        <!-- RIGHT COLUMN: 最新優惠（右1-6 可滑動） -->
-        <div class="right-column">
+        <div class="col-mid">
+            <div class="mid-title">與我分享</div>
+            <div class="social-icons">
+                <a href="#" class="social-circle bg-fb">f</a>
+                <a href="#" class="social-circle bg-line">L</a>
+            </div>
+
+            <div class="mid-divider"></div>
+
+            <div class="mid-title">訂閱電子報</div>
+            <div style="font-size: 12px; color: #666; margin-bottom: 15px;">掌握第一手消息</div>
+
+            <div class="mid-divider"></div>
+
+            <div class="mid-title">聯絡資訊</div>
+            <div class="contact-info">
+                台北市北投區東華街二段322號三樓<br>
+                TEL : 02-2821-1119<br>
+                營業時間：11:00 - 21:30<br>
+                (例假日照常營業)
+            </div>
+
+            <ul class="mid-menu">
+                <li><a href="#">關於我們</a></li>
+                <li><a href="#">人才招募(104)</a></li>
+                <li><a href="#">線上客服</a></li>
+                <li><a href="#">最新消息</a></li>
+                <li><a href="#">影音專區</a></li>
+            </ul>
+        </div>
+
+        <div class="col-right">
             <div class="section-title">最新優惠</div>
-
-            <div class="promo-section">
-                <div class="promo-list">
-                    <!-- 右1 -->
-                    <div class="promo-card">
-                        <div class="promo-image" style="background-image: url('./右1.jpg');"></div>
-                        <div class="promo-content">
-                            <span class="promo-tag">優惠</span>
-                            <div class="promo-title">全館滿額現折</div>
-                            <div class="promo-desc">折扣高達150元</div>
-                            <span class="view-more">查看詳情 ></span>
-                        </div>
-                    </div>
-
-                    <!-- 右2 -->
-                    <div class="promo-card">
-                        <div class="promo-image" style="background-image: url('./右2.jpg');"></div>
-                        <div class="promo-content">
-                            <span class="promo-tag">優惠</span>
-                            <div class="promo-title">新品上市享優惠</div>
-                            <div class="promo-desc">限時特價優惠</div>
-                            <span class="view-more">查看詳情 ></span>
-                        </div>
-                    </div>
-
-                    <!-- 右3 -->
-                    <div class="promo-card">
-                        <div class="promo-image" style="background-image: url('./右3.jpg');"></div>
-                        <div class="promo-content">
-                            <span class="promo-tag">優惠</span>
-                            <div class="promo-title">VIP 會員專享</div>
-                            <div class="promo-desc">8折起優惠</div>
-                            <span class="view-more">查看詳情 ></span>
-                        </div>
-                    </div>
-
-                    <!-- 右4 -->
-                    <div class="promo-card">
-                        <div class="promo-image" style="background-image: url('./右4.jpg');"></div>
-                        <div class="promo-content">
-                            <span class="promo-tag">優惠</span>
-                            <div class="promo-title">季節限定活動</div>
-                            <div class="promo-desc">春季特別企劃</div>
-                            <span class="view-more">查看詳情 ></span>
-                        </div>
-                    </div>
-
-                    <!-- 右5 -->
-                    <div class="promo-card">
-                        <div class="promo-image" style="background-image: url('./右5.jpg');"></div>
-                        <div class="promo-content">
-                            <span class="promo-tag">優惠</span>
-                            <div class="promo-title">IFC 快閃活動</div>
-                            <div class="promo-desc">限定時間限定地點</div>
-                            <span class="view-more">查看詳情 ></span>
-                        </div>
-                    </div>
-
-                    <!-- 右6 -->
-                    <div class="promo-card">
-                        <div class="promo-image" style="background-image: url('./右6.jpg');"></div>
-                        <div class="promo-content">
-                            <span class="promo-tag">優惠</span>
-                            <div class="promo-title">套裝組合優惠</div>
-                            <div class="promo-desc">多件出更優惠</div>
-                            <span class="view-more">查看詳情 ></span>
-                        </div>
-                    </div>
-                </div>
+            <div class="promo-stack">
+                <img src="./右1.jpg" alt="優惠1">
+                <img src="./右2.jpg" alt="優惠2">
+                <img src="./右3.jpg" alt="優惠3">
+                <img src="./右4.jpg" alt="優惠4">
+                <img src="./右5.jpg" alt="優惠5">
+                <img src="./右6.jpg" alt="優惠6">
             </div>
         </div>
+
     </div>
 
-    <!-- Footer -->
     <footer>
-        <div class="brand-section">
-            <div class="brand-logos">
-                <span style="color: #999; font-size: 12px; margin-right: 15px;">友好連結：</span>
-                <span class="brand-logo">Shimano</span>
-                <span class="brand-logo">GAMAKATSU</span>
-                <span class="brand-logo">BASSDAY</span>
-                <span class="brand-logo">Megabass</span>
-            </div>
+        <div class="footer-brands">
+            友好連結： Shimano | GAMAKATSU | BASSDAY | Megabass
         </div>
-
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>關於ETUOH</h3>
-                <ul>
-                    <li><a href="#">公司簡介</a></li>
-                    <li><a href="#">品牌故事</a></li>
-                    <li><a href="#">工廠介紹</a></li>
-                    <li><a href="#">企業文化</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>快速導覽</h3>
-                <ul>
-                    <li><a href="#">線上購物</a></li>
-                    <li><a href="#">門市據點</a></li>
-                    <li><a href="#">聯絡我們</a></li>
-                    <li><a href="#">最新消息</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>合作品牌</h3>
-                <ul>
-                    <li><a href="#">Shimano</a></li>
-                    <li><a href="#">GAMAKATSU</a></li>
-                    <li><a href="#">BASSDAY</a></li>
-                    <li><a href="#">Megabass</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>法律資訊</h3>
-                <ul>
-                    <li><a href="#">隱私權條款</a></li>
-                    <li><a href="#">使用條款</a></li>
-                    <li><a href="#">常見問題</a></li>
-                    <li><a href="#">網站地圖</a></li>
-                </ul>
-            </div>
+        <div class="footer-links">
+            <a href="#">關於ETUOH</a>
+            <a href="#">快速導覽</a>
+            <a href="#">合作品牌</a>
+            <a href="#">法律資訊</a>
         </div>
-
         <div class="footer-bottom">
-            <p>ETUOH 漁拓企業股份有限公司</p>
-            <p>TEL：02-2821-1119 | 台北市北投區東華街二段322號三樓</p>
-            <p>Copyright© 2019 ETUOH All Rights Reserved | Designed by LOHAS IT</p>
+            Copyright© 2019 ETUOH All Rights Reserved.
         </div>
     </footer>
+
 </body>
 </html>
