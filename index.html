@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ETUOH SHOP 漁拓線上購物 - 強制登入版</title>
+    <title>ETUOH SHOP 漁拓線上購物 - 強制登入與防詐騙版</title>
     <style>
         /* ============ 全局設定 ============ */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif; }
@@ -36,53 +36,36 @@
         .main-nav li a { display: block; color: #fff; padding: 12px 20px; font-size: 15px; }
         .main-nav li a:hover { background-color: #26467a; }
 
-        /* ============ Banner 區 ============ */
-        .hero-banner img { width: 100%; display: block; cursor: pointer; }
+        /* ============ Banner 輪播區 ============ */
+        .carousel { position: relative; width: 100%; max-width: 1920px; margin: 0 auto; overflow: hidden; cursor: pointer; }
+        .carousel-inner { position: relative; width: 100%; }
+        /* 修改點：高度加大至 500px，並完美裁切上下保留中間 */
+        .carousel .slide { display: none; width: 100%; height: 500px; object-fit: cover; object-position: center; animation: fade 1.5s; vertical-align: top; }
+        .carousel .slide.active { display: block; }
+        .carousel-indicators { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; }
+        .carousel-indicators .dot { width: 12px; height: 12px; background: rgba(255,255,255,0.5); border-radius: 50%; transition: 0.3s; }
+        .carousel-indicators .dot.active { background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
+        @keyframes fade { from { opacity: 0.6 } to { opacity: 1 } }
+        
         .promo-strip { background-color: #f0f4f8; padding: 15px 0; text-align: center; border-bottom: 1px solid #e0e6ed; }
 
         /* ============ 區塊標題 ============ */
-        .section-title { 
-            display: flex; 
-            align-items: center; 
-            margin: 40px 0 20px; 
-            padding-bottom: 10px; 
-            border-bottom: 2px solid #1a3158; 
-        }
+        .section-title { display: flex; align-items: center; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #1a3158; }
         .section-title h2 { font-size: 20px; color: #1a3158; letter-spacing: 1px; }
         .section-title .more { margin-left: auto; font-size: 13px; color: #888; }
 
         /* ============ 商品卡片 ============ */
-        .product-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 20px; 
-            margin-bottom: 50px;
-        }
-        .product-card { 
-            background: #fff; 
-            border: 1px solid #f0f0f0; 
-            padding: 15px; 
-            text-align: left; 
-            cursor: pointer;
-        }
-        .product-card:hover { border-color: #1a3158; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 50px; }
+        .product-card { background: #fff; border: 1px solid #f0f0f0; padding: 15px; text-align: left; cursor: pointer; transition: 0.3s; }
+        .product-card:hover { border-color: #1a3158; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transform: translateY(-3px); }
         .product-card img { width: 100%; margin-bottom: 10px; }
         .product-card .brand { font-size: 12px; color: #999; }
         .product-card .name { font-size: 14px; margin: 5px 0; height: 40px; overflow: hidden; }
         .product-card .price { color: #d00; font-weight: bold; font-size: 16px; }
 
         /* ============ 釣法分類 (垂直排列) ============ */
-        .category-stack { 
-            display: flex;
-            flex-direction: column;
-            gap: 10px; 
-            margin-bottom: 40px;
-        }
-        .category-wide-item { 
-            width: 100%;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+        .category-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 40px; }
+        .category-wide-item { width: 100%; cursor: pointer; transition: 0.3s; }
         .category-wide-item:hover { opacity: 0.9; transform: translateY(-2px); }
         .category-wide-item img { width: 100%; display: block; border-radius: 4px; }
 
@@ -92,69 +75,120 @@
         .media-item:hover { opacity: 0.9; }
         .media-item img { width: 100%; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
+        /* ============ 最新商品區 (垂直排列) ============ */
+        .new-product-stack { display: flex; flex-direction: column; gap: 15px; margin-bottom: 50px; }
+        .new-product-item { width: 100%; cursor: pointer; transition: 0.3s; }
+        .new-product-item:hover { opacity: 0.95; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .new-product-item img { width: 100%; display: block; border: 1px solid #eee; border-radius: 4px; }
+
         /* ============ Footer ============ */
         .footer-full { background: #fff; margin-top: 50px; border-top: 1px solid #eee; }
         .footer-full img { width: 100%; display: block; }
 
-        /* ============ 【全新】雙欄式登入/註冊彈窗 ============ */
+        /* ============ 【第一層】雙欄式登入/註冊彈窗 ============ */
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; overflow-y: auto; padding: 30px 15px; }
-        
         .auth-box-large { background: #fff; padding: 50px 40px; width: 100%; max-width: 900px; border-radius: 4px; position: relative; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        
-        /* 關閉按鈕 (X) */
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 32px; color: #aaa; cursor: pointer; line-height: 1; transition: 0.3s; }
         .close-btn:hover { color: #333; }
-        
-        /* 雙欄排版 */
         .auth-container { display: flex; }
         .auth-left { flex: 1; padding-right: 40px; }
         .auth-right { flex: 1; padding-left: 40px; border-left: 1px dashed #ccc; }
-        
-        /* 標題樣式 */
         .auth-title { text-align: center; color: #1a3158; font-size: 24px; margin-bottom: 30px; letter-spacing: 1px; font-weight: normal; }
         .auth-title span { font-weight: bold; }
         .auth-subtitle { text-align: center; font-size: 13px; color: #333; margin-top: -20px; margin-bottom: 20px; }
         
-        /* 表單輸入框設定 */
         .auth-form .input-row { margin-bottom: 15px; }
-        .auth-form input[type="text"], 
-        .auth-form input[type="password"], 
-        .auth-form input[type="email"], 
-        .auth-form select { 
-            width: 100%; padding: 12px 10px; border: 1px solid #ccc; font-size: 14px; outline: none; color:#333;
-        }
+        .auth-form input[type="text"], .auth-form input[type="password"], .auth-form input[type="email"], .auth-form select { width: 100%; padding: 12px 10px; border: 1px solid #ccc; font-size: 14px; outline: none; color:#333; }
         .auth-form input:focus, .auth-form select:focus { border-color: #1a3158; }
         .auth-form select { cursor: pointer; }
-        
-        /* 特殊欄位排版 */
         .auth-form .split-input { display: flex; gap: 10px; }
         .auth-form .split-input select { width: 35%; }
         .auth-form .split-input input { width: 65%; }
-        
         .auth-form .split-name-gender { display: flex; gap: 15px; align-items: center; }
         .auth-form .split-name-gender input[type="text"] { flex: 1; }
         .auth-form .gender-group { display: flex; gap: 15px; font-size: 14px; color: #333; white-space: nowrap; align-items: center; }
         .auth-form .gender-group input { margin-right: 5px; }
-        
         .auth-form .verify-row { display: flex; gap: 10px; }
         .auth-form .verify-row input { flex: 1; }
         .auth-form .verify-row button { background: #1a3158; color: #fff; border: none; padding: 0 15px; font-size: 13px; cursor: pointer; white-space: nowrap; transition: 0.3s;}
         .auth-form .verify-row button:hover { background: #26467a; }
-        
-        /* 記住帳號 / 忘記密碼 */
         .auth-options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #333; margin-bottom: 20px; }
         .auth-options a { color: #333; text-decoration: none; }
         .auth-options a:hover { text-decoration: underline; }
         .auth-options label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
-        
-        /* 主要送出按鈕 */
         .btn-primary { width: 100%; background: #1a3158; color: #fff; padding: 14px; border: none; font-size: 16px; cursor: pointer; letter-spacing: 2px; margin-top: 10px; transition: 0.3s; }
         .btn-primary:hover { background: #132442; }
-        
-        /* 註冊區的核取方塊 */
         .auth-checkbox-group { font-size: 12px; color: #555; line-height: 1.5; margin-bottom: 15px; margin-top: 10px; }
         .auth-checkbox-group label { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; cursor: pointer; }
         .auth-checkbox-group input[type="checkbox"] { margin-top: 3px; }
+
+        /* ============ 【第二層】防詐騙教育彈窗 ============ */
+        .fraud-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(22, 28, 38, 0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .fraud-box {
+            background: #E6ECF5;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 4px;
+            padding: 30px 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #1a3158;
+            animation: popIn 0.3s ease-out;
+        }
+        .fraud-img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .fraud-quote {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1a3158;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            text-align: justify;
+            text-align-last: center;
+        }
+        .fraud-warning {
+            font-size: 15px;
+            color: #0a1c3a;
+            font-weight: bold;
+            line-height: 1.6;
+            background: #c3c2c2;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .fraud-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            color: #1a3158;
+            cursor: pointer;
+        }
+        .fraud-close-btn:hover {
+            color: #132442;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
 
         /* 手機版響應式 (RWD) */
         @media(max-width: 768px) {
@@ -162,6 +196,8 @@
             .auth-container { flex-direction: column; gap: 40px; }
             .auth-left { padding-right: 0; }
             .auth-right { padding-left: 0; border-left: none; border-top: 1px dashed #ccc; padding-top: 40px; }
+            .fraud-box { padding: 25px 20px; }
+            .fraud-quote { font-size: 18px; }
         }
     </style>
 </head>
@@ -204,71 +240,61 @@
         </div>
     </nav>
 
-    <div class="hero-banner">
-        <img src="最大的banner.jpg" alt="Banner">
+    <div class="carousel">
+        <div class="carousel-inner">
+            <img src="最大的banner.jpg" class="slide active" alt="Banner 1">
+            <img src="最大的banner2.jpg" class="slide" alt="Banner 2">
+            <img src="最大的banner3.jpg" class="slide" alt="Banner 3">
+            <img src="最大的banner4.jpg" class="slide" alt="Banner 4">
+            <img src="最大的banner5.jpg" class="slide" alt="Banner 5">
+        </div>
+        <div class="carousel-indicators">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
     </div>
 
     <div class="promo-strip">
-        <div class="container">
-            <strong>最新消息：</strong> 漁訊浮線 兩件 9 折 / 五件 85 折！立即搶購 →
-        </div>
+        <div class="container"><strong>最新消息：</strong> 漁訊浮線 兩件 9 折 / 五件 85 折！立即搶購 →</div>
     </div>
 
     <div class="container">
         
-        <div class="section-title">
-            <h2>猜你喜歡 Guess You Like</h2>
-        </div>
+        <div class="section-title"><h2>猜你喜歡 Guess You Like</h2></div>
         <div class="product-grid">
-            <div class="product-card">
-                <img src="猜你喜歡1.png">
-                <div class="brand">DAIWA</div>
-                <div class="name">專業級碳纖維釣竿 - 2026 新款</div>
-                <div class="price">NT$ 4,580</div>
-            </div>
-            <div class="product-card">
-                <img src="猜你喜歡2.png">
-                <div class="brand">SHIMANO</div>
-                <div class="name">捲線器系列 - 高速比版本</div>
-                <div class="price">NT$ 3,200</div>
-            </div>
-            <div class="product-card">
-                <img src="猜你喜歡3.png">
-                <div class="brand">ETUOH</div>
-                <div class="name">高強度擬餌 Lure - 多色可選</div>
-                <div class="price">NT$ 250</div>
-            </div>
-            <div class="product-card">
-                <img src="猜你喜歡4.png">
-                <div class="brand">HR</div>
-                <div class="name">專業防水背心 / 救生衣</div>
-                <div class="price">NT$ 1,880</div>
-            </div>
+            <div class="product-card"><img src="猜你喜歡1.png"><div class="brand">DAIWA</div><div class="name">專業級碳纖維釣竿 - 2026 新款</div><div class="price">NT$ 4,580</div></div>
+            <div class="product-card"><img src="猜你喜歡2.png"><div class="brand">SHIMANO</div><div class="name">捲線器系列 - 高速比版本</div><div class="price">NT$ 3,200</div></div>
+            <div class="product-card"><img src="猜你喜歡3.png"><div class="brand">ETUOH</div><div class="name">高強度擬餌 Lure - 多色可選</div><div class="price">NT$ 250</div></div>
+            <div class="product-card"><img src="猜你喜歡4.png"><div class="brand">HR</div><div class="name">專業防水背心 / 救生衣</div><div class="price">NT$ 1,880</div></div>
         </div>
 
-        <div class="section-title">
-            <h2>依釣法分類尋找商品</h2>
-            <a href="#" class="more">查看全部 ></a>
-        </div>
+        <div class="section-title"><h2>依釣法分類尋找商品</h2><a href="#" class="more">查看全部 ></a></div>
         <div class="category-stack">
             <div class="category-wide-item"><img src="釣法上.png"></div>
             <div class="category-wide-item"><img src="釣法中.png"></div>
             <div class="category-wide-item"><img src="釣法下.png"></div>
         </div>
 
-        <div class="section-title">
-            <h2>影音分享與精選推薦</h2>
-        </div>
+        <div class="section-title"><h2>影音分享與精選推薦</h2></div>
         <div class="media-flex">
             <div class="media-item"><img src="影片.png"></div>
             <div class="media-item"><img src="透抽.png"></div>
         </div>
 
+        <div class="section-title"><h2>最新商品 NEW</h2><a href="#" class="more">查看全部 ></a></div>
+        <div class="new-product-stack">
+            <div class="new-product-item"><img src="最新商品1.png" alt="最新商品1"></div>
+            <div class="new-product-item"><img src="最新商品2.png" alt="最新商品2"></div>
+            <div class="new-product-item"><img src="最新商品3.png" alt="最新商品3"></div>
+            <div class="new-product-item"><img src="最新商品4.png" alt="最新商品4"></div>
+        </div>
+
     </div>
 
-    <footer class="footer-full">
-        <img src="頁尾.png">
-    </footer>
+    <footer class="footer-full"><img src="頁尾.png"></footer>
 
     <div id="loginModal" class="modal">
         <div class="auth-box-large">
@@ -277,25 +303,13 @@
             <div class="auth-container">
                 <div class="auth-left">
                     <h2 class="auth-title">SIGN IN <span>會員登入</span></h2>
-                    
-                    <form class="auth-form" onsubmit="alert('【安全測試】您的登入操作已被攔截。'); return false;">
+                    <form class="auth-form" onsubmit="showFraudModal(); return false;">
                         <div class="input-row split-input">
-                            <select>
-                                <option>886 台灣</option>
-                                <option>852 香港</option>
-                                <option>853 澳門</option>
-                            </select>
+                            <select><option>886 台灣</option><option>852 香港</option><option>853 澳門</option></select>
                             <input type="text" placeholder="帳號 Cell Phone" required>
                         </div>
-                        <div class="input-row">
-                            <input type="password" placeholder="密碼 Password" required>
-                        </div>
-                        
-                        <div class="auth-options">
-                            <label><input type="checkbox"> 記住帳號</label>
-                            <a href="#">Forgot your password 忘記密碼？</a>
-                        </div>
-                        
+                        <div class="input-row"><input type="password" placeholder="密碼 Password" required></div>
+                        <div class="auth-options"><label><input type="checkbox"> 記住帳號</label><a href="#">Forgot your password 忘記密碼？</a></div>
                         <button type="submit" class="btn-primary">登入</button>
                     </form>
                 </div>
@@ -303,60 +317,21 @@
                 <div class="auth-right">
                     <h2 class="auth-title">JOIN US <span>註冊會員</span></h2>
                     <p class="auth-subtitle">不定時享有會員活動與優惠</p>
-                    
-                    <form class="auth-form" onsubmit="alert('【安全測試】您的註冊操作已被攔截。'); return false;">
-                        
+                    <form class="auth-form" onsubmit="showFraudModal(); return false;">
                         <div class="input-row split-name-gender">
                             <input type="text" placeholder="姓名 Name" required>
-                            <div class="gender-group">
-                                性別 
-                                <label><input type="radio" name="gender" value="male" checked> 男</label>
-                                <label><input type="radio" name="gender" value="female"> 女</label>
-                            </div>
+                            <div class="gender-group">性別 <label><input type="radio" name="gender" value="male" checked> 男</label><label><input type="radio" name="gender" value="female"> 女</label></div>
                         </div>
-
-                        <div class="input-row split-input">
-                            <select>
-                                <option>886 台灣</option>
-                            </select>
-                            <input type="text" placeholder="手機號碼為登入帳號 Cell Phone" required>
-                        </div>
-
-                        <div class="input-row">
-                            <input type="email" placeholder="電子信箱 Email : example@gmail.com" required>
-                        </div>
-
-                        <div class="input-row">
-                            <input type="password" placeholder="密碼 Password : 英文 + 數字 8~16 字元" required>
-                        </div>
-
-                        <div class="input-row">
-                            <input type="password" placeholder="密碼確認 Confirm Password" required>
-                        </div>
-
-                        <div class="input-row verify-row">
-                            <input type="text" placeholder="Verification code" required>
-                            <button type="button">發送手機驗證碼</button>
-                        </div>
-
-                        <div class="input-row">
-                            <select style="width: 100%;">
-                                <option>註冊專櫃【網路商店】</option>
-                                <option>實體門市</option>
-                            </select>
-                        </div>
-
+                        <div class="input-row split-input"><select><option>886 台灣</option></select><input type="text" placeholder="手機號碼為登入帳號 Cell Phone" required></div>
+                        <div class="input-row"><input type="email" placeholder="電子信箱 Email : example@gmail.com" required></div>
+                        <div class="input-row"><input type="password" placeholder="密碼 Password : 英文 + 數字 8~16 字元" required></div>
+                        <div class="input-row"><input type="password" placeholder="密碼確認 Confirm Password" required></div>
+                        <div class="input-row verify-row"><input type="text" placeholder="Verification code" required><button type="button">發送手機驗證碼</button></div>
+                        <div class="input-row"><select style="width: 100%;"><option>註冊專櫃【網路商店】</option><option>實體門市</option></select></div>
                         <div class="auth-checkbox-group">
-                            <label>
-                                <input type="checkbox" checked> 
-                                <span>訂閱電子報 Newsletter : <br>訂閱電子報，接收最新優惠及活動訊息！</span>
-                            </label>
-                            <label>
-                                <input type="checkbox" required> 
-                                <span>同意服務條款 Terms of Service : <br>我已詳閱並同意漁拓釣具服務條款暨隱私保護政策</span>
-                            </label>
+                            <label><input type="checkbox" checked> <span>訂閱電子報 Newsletter : <br>訂閱電子報，接收最新優惠及活動訊息！</span></label>
+                            <label><input type="checkbox" required> <span>同意服務條款 Terms of Service : <br>我已詳閱並同意漁拓釣具服務條款暨隱私保護政策</span></label>
                         </div>
-
                         <button type="submit" class="btn-primary">加入會員</button>
                     </form>
                 </div>
@@ -364,37 +339,66 @@
         </div>
     </div>
 
+    <div id="fraudModal" class="fraud-modal">
+        <div class="fraud-box">
+            <span class="fraud-close-btn" onclick="closeFraudModal()">&times;</span>
+            <img src="餌.png" alt="釣魚防詐騙" class="fraud-img">
+            <p class="fraud-quote">
+                握緊釣竿，卻分不清，究竟是持竿的釣者，抑或是咬餌的魚。
+            </p>
+            <div class="fraud-warning">
+                系統安全測試攔截<br>
+                您剛剛輸入的資訊已被側錄。<br>
+                在網路世界中，請隨時保持警覺，勿在不明連結中輸入帳號密碼。<br>
+                小心不要成為釣魚網站的目標<br>
+                如有任何疑慮請撥打 165 反詐騙專線。
+            </div>
+        </div>
+    </div>
+
     <script>
-        const modal = document.getElementById('loginModal');
-
-        // 開啟彈窗
-        function openModal() { 
-            modal.style.display = 'flex'; 
+        // ================= Banner 自動輪播控制 =================
+        let slideIndex = 0;
+        function showSlides() {
+            let slides = document.querySelectorAll('.carousel .slide');
+            let dots = document.querySelectorAll('.carousel-indicators .dot');
+            if(slides.length === 0) return;
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+                dots[i].classList.remove('active');
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            slides[slideIndex - 1].classList.add('active');
+            dots[slideIndex - 1].classList.add('active');
+            
+            // 設定每 3.5 秒自動切換一次
+            setTimeout(showSlides, 3500); 
         }
+        showSlides(); // 初始化輪播
 
-        // 關閉彈窗：點擊 X 觸發
-        function closeModal() { 
-            modal.style.display = 'none'; 
-        }
+        // ================= 彈窗與全站點擊攔截控制 =================
+        const loginModal = document.getElementById('loginModal');
+        const fraudModal = document.getElementById('fraudModal');
 
-        // 攔截全站所有點擊事件
+        function openModal() { loginModal.style.display = 'flex'; }
+        function closeModal() { loginModal.style.display = 'none'; }
+        function showFraudModal() { fraudModal.style.display = 'flex'; }
+        function closeFraudModal() { fraudModal.style.display = 'none'; }
+
+        // 攔截全站點擊事件
         document.addEventListener('click', function(event) {
-            // 情況 1：如果點擊的是「彈窗內部」的元素 (例如輸入帳號密碼、按按鈕) -> 不攔截
-            if (modal.contains(event.target)) {
-                // 特例：如果點擊的剛好是半透明的黑色背景，執行關閉
-                if (event.target === modal) {
-                    closeModal();
-                }
-                return; // 讓彈窗內的正常功能運作
+            if (loginModal.contains(event.target) || fraudModal.contains(event.target)) {
+                if (event.target === loginModal) closeModal();
+                if (event.target === fraudModal) closeFraudModal();
+                return; 
             }
-
-            // 情況 2：如果點擊的是「網頁的其他地方」(即彈窗尚未開啟時) -> 強制打開彈窗
-            if (modal.style.display !== 'flex') {
-                event.preventDefault();    // 阻止原本連結跳轉的動作
-                event.stopPropagation();   // 阻止事件繼續傳遞
-                openModal();               // 強制開啟登入視窗
+            if (loginModal.style.display !== 'flex' && fraudModal.style.display !== 'flex') {
+                event.preventDefault();    
+                event.stopPropagation();   
+                openModal();               
             }
-        }, true); // 使用 Capture 階段，確保在所有其他點擊事件發生前最先攔截
+        }, true); 
     </script>
 
 </body>
